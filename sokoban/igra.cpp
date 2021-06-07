@@ -4,25 +4,45 @@ igra::igra(sf::RenderWindow* prozor1)
     prozor = prozor1;
     if (!(tZid.loadFromFile("resource/kocka.png")))
         exit(1);
-    //if (!(tZid.loadFromFile("resource/igrac.png")))
-        //exit(1);
     if (!(tKutija.loadFromFile("resource/kutija.png")))
         exit(2);
     if (!(tKraj.loadFromFile("resource/kraj-t256.png")))
         exit(3);
-    if (!(tNaMestu.loadFromFile("resource/na_mestu.png")))
+    if (!(tIgrac.loadFromFile("resource/igrac.png")))
         exit(4);
+    if (!(tNaMestu.loadFromFile("resource/na_mestu.png")))
+        exit(5);
     zid.setTexture(tZid);
     kutija.setTexture(tKutija);
     kraj.setTexture(tKraj);
+    igrac.setTexture(tIgrac);
     na_mestu.setTexture(tNaMestu);
-    na_mestu.setScale(sf::Vector2f(0.25f, 0.25f));
     zid.setScale(sf::Vector2f(0.25f,0.25f));
     kutija.setScale(sf::Vector2f(0.25f, 0.25f));
     kraj.setScale(sf::Vector2f(0.25f, 0.25f));
+    igrac.setScale(sf::Vector2f(0.25f, 0.25f));
+    na_mestu.setScale(sf::Vector2f(0.25f, 0.25f));
     boja[1] = sf::Color::White;
     boja[2] = sf::Color(0,0,0,200);
-    std::ifstream nivo("resource/nivo.txt");
+}
+void igra::ucitaj_nivo(int br)
+{
+    std::stringstream naziv;
+    naziv << "resource/nivoi/nivo";
+    if (br < 10) naziv << "0";
+    naziv << br << "\0";
+    std::ifstream ulaz(naziv.str());
+    std::cout << "Otvaram fajl: " << naziv.str() << "\n";
+    for (int j = 0; j < 16; j++)
+    {
+        for (int i = 0; i < 19; i++)
+        {
+            ulaz >> matrica[j][i];
+            std::cout << matrica[j][i] <<" ";
+        }
+        std::cout << "\n";
+    }
+    ulaz.close();
 }
 void igra::ispis_matrice()
 {
@@ -46,6 +66,10 @@ void igra::ispis_matrice()
                 kraj.setPosition(sf::Vector2f(i * 50.0f, j * 50.0f));
                 prozor->draw(kraj);
                 break;
+            case IGRAC:
+                igrac.setPosition(sf::Vector2f(i * 50.0f, j * 50.0f));
+                prozor->draw(igrac);
+                break;
             case NA_MESTU:
                 na_mestu.setPosition(sf::Vector2f(i * 50.0f, j * 50.0f));
                 prozor->draw(na_mestu);
@@ -64,6 +88,7 @@ void igra::ispis_podataka()
 }
 void igra::nivo()
 {
+    ucitaj_nivo(16);
     while (prozor->isOpen())
     {
         sf::Event event;
