@@ -1,6 +1,4 @@
-#include <iostream>
 #include "igra.h"
-#include <SFML/Graphics.hpp>
 
 int main()
 {

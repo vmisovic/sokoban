@@ -22,11 +22,14 @@ igra::igra(sf::RenderWindow* prozor1)
     kraj.setScale(sf::Vector2f(0.25f, 0.25f));
     igrac.setScale(sf::Vector2f(0.25f, 0.25f));
     na_mestu.setScale(sf::Vector2f(0.25f, 0.25f));
-    boja[1] = sf::Color::White;
-    boja[2] = sf::Color(0,0,0,200);
+    boja[0] = sf::Color::White;
+    boja[1] = sf::Color(0,0,0,200);
+    br_kutija = 0;
 }
-void igra::ucitaj_nivo(int br)
+bool igra::ucitaj_nivo(int br)
 {
+    if (br < 1 || br>50)return false;
+    br_kutija = 0;
     std::stringstream naziv;
     naziv << "resource/nivoi/nivo";
     if (br < 10) naziv << "0";
@@ -39,10 +42,30 @@ void igra::ucitaj_nivo(int br)
         {
             ulaz >> matrica[j][i];
             std::cout << matrica[j][i] <<" ";
+            switch (matrica[j][i])
+            {
+            case 2:
+                kutija_vektor[br_kutija] = sf::Vector2f(float(i),float(j));
+                br_kutija++;
+                mapa[j][i] = 0;
+                break;
+            case 5:
+                kutija_vektor[br_kutija] = sf::Vector2f(float(i), float(j));
+                kutija_na_mestu[br_kutija] = 1;
+                br_kutija++;
+                mapa[j][i] = 3;
+            case 4:
+                igrac_vektor = sf::Vector2f(float(i), float(j));
+                mapa[j][i] = 0;
+            default:
+                mapa[j][i] = matrica[j][i];
+                break;
+            }
         }
         std::cout << "\n";
     }
     ulaz.close();
+    return true;
 }
 void igra::ispis_matrice()
 {
@@ -81,14 +104,14 @@ void igra::ispis_matrice()
 void igra::ispis_podataka()
 {
     sf::RectangleShape poz;
-    poz.setFillColor(boja[2]);
+    poz.setFillColor(boja[1]);
     poz.setPosition(sf::Vector2f(1000.f, 0.f));
     poz.setSize(sf::Vector2f(400, 800));
     prozor->draw(poz);
 }
 void igra::nivo()
 {
-    ucitaj_nivo(16);
+    ucitaj_nivo(1);
     while (prozor->isOpen())
     {
         sf::Event event;
@@ -97,7 +120,7 @@ void igra::nivo()
             if (event.type == sf::Event::Closed)
                 prozor->close();
         }
-        prozor->clear(boja[1]);
+        prozor->clear(boja[0]);
         ispis_matrice();
         ispis_podataka();
         prozor->display();

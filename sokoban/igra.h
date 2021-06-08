@@ -15,9 +15,12 @@ class igra
     sf::Sprite zid, kutija, kraj, igrac, na_mestu;
     sf::Color boja[2];
     int matrica[16][19], mapa[16][19];
+    sf::Vector2f kutija_vektor[35], igrac_vektor;
+    bool kutija_na_mestu[35];
+    int br_kutija;
 public:
     igra(sf::RenderWindow* prozor1);
-    void ucitaj_nivo(int br);
+    bool ucitaj_nivo(int br);
     void ispis_matrice();
     void ispis_podataka();
 	void nivo();
