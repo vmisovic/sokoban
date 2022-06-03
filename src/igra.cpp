@@ -3,7 +3,6 @@
 igra::igra(sf::RenderWindow* prozor1)
 {
 	prozor = prozor1;
-	v_ekrana = sf::Vector2i(V_EKR_X0,V_EKR_Y0);
 	if (!(tZid.loadFromFile("resource/kocka.png")))
 		exit(1);
 	if (!(tKutija.loadFromFile("resource/kutija.png")))
@@ -14,17 +13,14 @@ igra::igra(sf::RenderWindow* prozor1)
 		exit(4);
 	if (!(tNaMestu.loadFromFile("resource/na_mestu.png")))
 		exit(5);
-	zid.setTexture(tZid);
-	kutija.setTexture(tKutija);
-	kraj.setTexture(tKraj);
-	igrac.setTexture(tIgrac);
-	na_mestu.setTexture(tNaMestu);
-	pocetak = sf::Vector2f(V_NA_EKRANU,0.f);
-	zid.setScale(sf::Vector2f(SKALIRANJE,SKALIRANJE));
-	kutija.setScale(sf::Vector2f(SKALIRANJE, SKALIRANJE));
-	kraj.setScale(sf::Vector2f(SKALIRANJE, SKALIRANJE));
-	igrac.setScale(sf::Vector2f(SKALIRANJE, SKALIRANJE));
-	na_mestu.setScale(sf::Vector2f(SKALIRANJE, SKALIRANJE));
+	sZid.setTexture(tZid);
+	sKutija.setTexture(tKutija);
+	sKraj.setTexture(tKraj);
+	sIgrac.setTexture(tIgrac);
+	sNaMestu.setTexture(tNaMestu);
+	kretanje = STOJI;
+	br_poteza = 0;
+	resize_update(V_EKR_X0,V_EKR_Y0);
 	boja[0] = sf::Color::White;
 	boja[1] = sf::Color(0,0,0,200);
 	br_kutija = 0;
@@ -49,17 +45,20 @@ bool igra::ucitaj_nivo(int br)
 			switch (matrica[j][i])
 			{
 			case 2:
-				kutija_vektor[br_kutija] = sf::Vector2f(float(i),float(j));
+				kutija_vektor[br_kutija] = sf::Vector2f((float)i, (float)j);
 				br_kutija++;
 				mapa[j][i] = 0;
 				break;
 			case 5:
-				kutija_vektor[br_kutija] = sf::Vector2f(float(i), float(j));
+				kutija_vektor[br_kutija] = sf::Vector2f((float)i, (float)j);
 				kutija_na_mestu[br_kutija] = 1;
 				br_kutija++;
 				mapa[j][i] = 3;
 			case 4:
-				igrac_vektor = sf::Vector2f(float(i), float(j));
+				igrac = sf::Vector2i(i, j);
+				igrac_vektor = sf::Vector2f((float)i, (float)j);
+				igrac.x = i;
+				igrac.y = j;
 				mapa[j][i] = 0;
 			default:
 				mapa[j][i] = matrica[j][i];
@@ -70,6 +69,53 @@ bool igra::ucitaj_nivo(int br)
 	}
 	ulaz.close();
 	return true;
+}
+
+void igra::resize_update(int x, int y)
+{
+	v_ekrana = sf::Vector2i(x, y);
+
+	pocetak = sf::Vector2f(V_NA_EKRANU, 0.f);
+	sZid.setScale(sf::Vector2f(SKALIRANJE,SKALIRANJE));
+	sKutija.setScale(sf::Vector2f(SKALIRANJE, SKALIRANJE));
+	sKraj.setScale(sf::Vector2f(SKALIRANJE, SKALIRANJE));
+	sIgrac.setScale(sf::Vector2f(SKALIRANJE, SKALIRANJE));
+	sNaMestu.setScale(sf::Vector2f(SKALIRANJE, SKALIRANJE));
+}
+
+void igra::igrac_update()
+{
+	float pomeraj = 0.005;
+	sf::Keyboard::Key strelice[4] = {
+		sf::Keyboard::Left,
+		sf::Keyboard::Up,
+		sf::Keyboard::Right,
+		sf::Keyboard::Down
+	};
+	int dx[4] = {-1, 0, +1, 0};
+	int dy[4] = {0, -1, 0, +1};
+	int suprotno[4] = {DESNO, DOLE, LEVO, GORE};
+
+	for(int i = 0; i < 4; i++)
+		if((kretanje == STOJI || kretanje == i || kretanje == suprotno[i]) &&
+		  sf::Keyboard::isKeyPressed(strelice[i]) &&
+		  mapa[igrac.y + dy[i]][igrac.x + dx[i]] != ZID)
+			kretanje = i;
+	if(kretanje != STOJI)
+		igrac_vektor += sf::Vector2f(dx[kretanje] * pomeraj, dy[kretanje] * pomeraj);
+
+	if(fabsf(igrac_vektor.x - (float)igrac.x) >= 1.f || fabsf(igrac_vektor.y - (float)igrac.y) >= 1.f)
+	{
+		br_poteza++;
+		igrac.x += dx[kretanje];
+		igrac.y += dy[kretanje];
+		kretanje = STOJI;
+	}
+}
+
+void igra::undo()
+{
+
 }
 
 void igra::ispis_matrice()
@@ -83,24 +129,24 @@ void igra::ispis_matrice()
 			default:
 				break;
 			case ZID:
-				zid.setPosition(pocetak + sf::Vector2f(i * V_NA_EKRANU, j * V_NA_EKRANU));
-				prozor->draw(zid);
+				sZid.setPosition(pocetak + sf::Vector2f(i * V_NA_EKRANU, j * V_NA_EKRANU));
+				prozor->draw(sZid);
 				break;
 			case KUTIJA:
-				kutija.setPosition(pocetak + sf::Vector2f(i * V_NA_EKRANU, j * V_NA_EKRANU));
-				prozor->draw(kutija);
+				sKutija.setPosition(pocetak + sf::Vector2f(i * V_NA_EKRANU, j * V_NA_EKRANU));
+				prozor->draw(sKutija);
 				break;
 			case KRAJ:
-				kraj.setPosition(pocetak + sf::Vector2f(i * V_NA_EKRANU, j * V_NA_EKRANU));
-				prozor->draw(kraj);
+				sKraj.setPosition(pocetak + sf::Vector2f(i * V_NA_EKRANU, j * V_NA_EKRANU));
+				prozor->draw(sKraj);
 				break;
 			case IGRAC:
-				igrac.setPosition(pocetak + sf::Vector2f(i * V_NA_EKRANU, j * V_NA_EKRANU));
-				prozor->draw(igrac);
+				sIgrac.setPosition(pocetak + igrac_vektor * V_NA_EKRANU);
+				prozor->draw(sIgrac);
 				break;
 			case NA_MESTU:
-				na_mestu.setPosition(pocetak + sf::Vector2f(i * V_NA_EKRANU, j * V_NA_EKRANU));
-				prozor->draw(na_mestu);
+				sNaMestu.setPosition(pocetak + sf::Vector2f(i * V_NA_EKRANU, j * V_NA_EKRANU));
+				prozor->draw(sNaMestu);
 				break;
 			}	 
 		}
@@ -113,11 +159,6 @@ void igra::ispis_podataka()
 	sf::RectangleShape poz;
 	poz.setFillColor(boja[1]);
 	poz.setPosition(sf::Vector2f(pozx, 0.f));
-	poz.setSize(sf::Vector2f(v_ekrana.x - pozx, v_ekrana.y));
+	poz.setSize(sf::Vector2f((v_ekrana.x > pozx) * (v_ekrana.x - pozx), v_ekrana.y));
 	prozor->draw(poz);
-}
-
-void igra::start()
-{
-	ucitaj_nivo(1);
 }

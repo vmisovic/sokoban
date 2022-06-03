@@ -5,7 +5,7 @@ int main()
 	sf::RenderWindow prozor(sf::VideoMode(V_EKR_X0, V_EKR_Y0), "sokoban", sf::Style::Close);
 	prozor.setPosition(sf::Vector2i(100, 0));
 	igra sokoban(&prozor);
-	sokoban.start();
+	sokoban.ucitaj_nivo(1);
 
 	while (prozor.isOpen())
 	{
@@ -18,11 +18,14 @@ int main()
 			{
 				if (event.key.code == sf::Keyboard::Q || event.key.code == sf::Keyboard::Escape)
 					prozor.close();
+				if (event.key.code == sf::Keyboard::U)
+					sokoban.undo();
 			}
 			if (event.type == sf::Event::Resized)
-				sokoban.v_ekrana = sf::Vector2i(event.size.width, event.size.height);
+				sokoban.resize_update(event.size.width, event.size.height);
 		}
 		prozor.clear(sokoban.boja[0]);
+		sokoban.igrac_update();
 		sokoban.ispis_matrice();
 		sokoban.ispis_podataka();
 		prozor.display();
