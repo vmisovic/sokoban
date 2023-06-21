@@ -19,16 +19,11 @@ int main()
 			{
 				if (event.key.code == sf::Keyboard::Q || event.key.code == sf::Keyboard::Escape)
 					prozor.close();
-				if (event.key.code == sf::Keyboard::U)
-					sokoban.undo();
 			}
-			if (event.type == sf::Event::Resized)
-				sokoban.resize_update(event.size.width, event.size.height);
 		}
-		prozor.clear(sokoban.boja[0]);
+		prozor.clear(sf::Color::White);
 		sokoban.igrac_update();
 		sokoban.ispis_matrice();
-		sokoban.ispis_podataka();
 		prozor.display();
 	}
 	return 0;
