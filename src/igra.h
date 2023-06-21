@@ -12,6 +12,7 @@
 #define V_FAJLA_X 19
 #define V_FAJLA_Y 16
 
+#define PRAZNO 0
 #define ZID 1
 #define KUTIJA 2
 #define KRAJ 3
@@ -35,12 +36,17 @@ class igra
 	sf::RenderWindow *prozor;
 
 	int mapa[V_FAJLA_Y][V_FAJLA_X];
+	int br_kutija;
+	int br_na_mestu;
+	int br_poteza;
+	int br_guranja;
+
 	sf::Vector2i igrac;
 	sf::Vector2f igrac_vektor;
-	int br_kutija;
-
 	int kretanje;
-	int br_poteza;
+	float pomeraj;
+	bool guranje;
+	sf::Vector2f kutija_gurana;
 
 	sf::Vector2f pocetak;
 	sf::Texture tZid, tKutija, tKraj, tIgrac, tNaMestu;
@@ -49,7 +55,8 @@ public:
 	igra(sf::RenderWindow* prozor1);
 	bool ucitaj_nivo(int br);
 	void igrac_update();
-	void ispis_matrice();
+	void crtaj_mapu();
+	bool reseno();
 };
 
 #endif

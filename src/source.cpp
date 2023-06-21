@@ -6,7 +6,8 @@ int main()
 	prozor.setPosition(sf::Vector2i(100, 0));
 	prozor.setFramerateLimit(60);
 	igra sokoban(&prozor);
-	sokoban.ucitaj_nivo(1);
+	int nivo = 1;
+	sokoban.ucitaj_nivo(nivo);
 
 	while (prozor.isOpen())
 	{
@@ -23,7 +24,9 @@ int main()
 		}
 		prozor.clear(sf::Color::White);
 		sokoban.igrac_update();
-		sokoban.ispis_matrice();
+		sokoban.crtaj_mapu();
+		if (sokoban.reseno())
+			sokoban.ucitaj_nivo(++nivo);
 		prozor.display();
 	}
 	return 0;
