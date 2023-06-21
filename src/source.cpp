@@ -4,6 +4,7 @@ int main()
 {
 	sf::RenderWindow prozor(sf::VideoMode(V_EKR_X0, V_EKR_Y0), "sokoban", sf::Style::Close);
 	prozor.setPosition(sf::Vector2i(100, 0));
+	prozor.setFramerateLimit(60);
 	igra sokoban(&prozor);
 	sokoban.ucitaj_nivo(1);
 

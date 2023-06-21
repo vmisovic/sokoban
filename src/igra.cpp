@@ -41,7 +41,7 @@ bool igra::ucitaj_nivo(int br)
 		for (int i = 0; i < V_FAJLA_X; i++)
 		{
 			ulaz >> matrica[j][i];
-			std::cout << matrica[j][i] <<" ";
+			std::cout << matrica[j][i] << " ";
 			switch (matrica[j][i])
 			{
 			case 2:
@@ -54,12 +54,12 @@ bool igra::ucitaj_nivo(int br)
 				kutija_na_mestu[br_kutija] = 1;
 				br_kutija++;
 				mapa[j][i] = 3;
+				break;
 			case 4:
 				igrac = sf::Vector2i(i, j);
 				igrac_vektor = sf::Vector2f((float)i, (float)j);
-				igrac.x = i;
-				igrac.y = j;
 				mapa[j][i] = 0;
+				break;
 			default:
 				mapa[j][i] = matrica[j][i];
 				break;
@@ -85,7 +85,7 @@ void igra::resize_update(int x, int y)
 
 void igra::igrac_update()
 {
-	float pomeraj = 0.005;
+	float pomeraj = 0.065;
 	sf::Keyboard::Key strelice[4] = {
 		sf::Keyboard::Left,
 		sf::Keyboard::Up,
@@ -120,14 +120,12 @@ void igra::undo()
 
 void igra::ispis_matrice()
 {
-	for (int i = 0; i < V_FAJLA_X; i++)
+	for (int j = 0; j < V_FAJLA_Y; j++)
 	{
-		for (int j = 0; j < V_FAJLA_Y; j++)
+		for (int i = 0; i < V_FAJLA_X; i++)
 		{ 
 			switch (matrica[j][i])
 			{
-			default:
-				break;
 			case ZID:
 				sZid.setPosition(pocetak + sf::Vector2f(i * V_NA_EKRANU, j * V_NA_EKRANU));
 				prozor->draw(sZid);
@@ -147,6 +145,8 @@ void igra::ispis_matrice()
 			case NA_MESTU:
 				sNaMestu.setPosition(pocetak + sf::Vector2f(i * V_NA_EKRANU, j * V_NA_EKRANU));
 				prozor->draw(sNaMestu);
+				break;
+			default:
 				break;
 			}	 
 		}
