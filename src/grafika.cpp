@@ -35,10 +35,10 @@ void grafika::setRenderWindow(sf::RenderWindow *prozor)
 	this->prozor = prozor;
 }
 
-void grafika::foo(int i, int j, int mapa[MAPA_Y][MAPA_X], sf::Vector2f igrac_vektor, sf::Vector2f kutija_gurana, bool guranje)
+void grafika::crtaj(sf::Vector2f v, int o)
 {
-	sf::Vector2f poz = pocetak + V_NA_EKRANU * sf::Vector2f(i, j);
-	switch (mapa[j][i])
+	sf::Vector2f poz = pocetak + V_NA_EKRANU * v;
+	switch (o)
 	{
 	case ZID:
 		sZid.setPosition(poz);
@@ -56,25 +56,8 @@ void grafika::foo(int i, int j, int mapa[MAPA_Y][MAPA_X], sf::Vector2f igrac_vek
 		sNaMestu.setPosition(poz);
 		prozor->draw(sNaMestu);
 		break;
-	}
-	if (guranje && fabsf(kutija_gurana.x - i) < 1.0f && fabsf(kutija_gurana.y - j) < 1.0f) {
-		sKutija.setPosition(pocetak + kutija_gurana * V_NA_EKRANU);
-		prozor->draw(sKutija);
-	}
-	if (fabsf(igrac_vektor.x - i) < 1.0f && fabsf(igrac_vektor.y - j) < 1.0f) {
-		sIgrac.setPosition(pocetak + igrac_vektor * V_NA_EKRANU);
+	case IGRAC:
+		sIgrac.setPosition(poz);
 		prozor->draw(sIgrac);
 	}
-}
-
-void grafika::crtaj_mapu(int kretanje, int mapa[MAPA_Y][MAPA_X], sf::Vector2f igrac_vektor, sf::Vector2f kutija_gurana, bool guranje)
-{
-	if (kretanje == GORE || kretanje == DOLE)
-		for (int i = 0; i < MAPA_X; i++)
-			for (int j = 0; j < MAPA_Y; j++)
-				foo(i, j, mapa, igrac_vektor, kutija_gurana, guranje);
-	else
-		for (int j = 0; j < MAPA_Y; j++)
-			for (int i = 0; i < MAPA_X; i++)
-				foo(i, j, mapa, igrac_vektor, kutija_gurana, guranje);
 }

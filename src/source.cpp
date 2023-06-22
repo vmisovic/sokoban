@@ -20,6 +20,8 @@ int main()
 			{
 				if (event.key.code == sf::Keyboard::Q || event.key.code == sf::Keyboard::Escape)
 					prozor.close();
+				if (event.key.code == sf::Keyboard::R)
+					sokoban.ucitaj_nivo(nivo);
 			}
 		}
 		prozor.clear(sf::Color::White);

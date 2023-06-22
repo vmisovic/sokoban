@@ -66,13 +66,19 @@ void igra::igrac_update()
 		sf::Keyboard::Right,
 		sf::Keyboard::Down
 	};
+	sf::Keyboard::Key hjkl[4] = {
+		sf::Keyboard::H,
+		sf::Keyboard::K,
+		sf::Keyboard::L,
+		sf::Keyboard::J
+	};
 	int dx[4] = {-1, 0, +1, 0};
 	int dy[4] = {0, -1, 0, +1};
 	int suprotno[4] = {DESNO, DOLE, LEVO, GORE};
 
 	int *ispred, *ispred2;
 	for (int i = 0; i < 4; i++)
-		if (sf::Keyboard::isKeyPressed(strelice[i]))
+		if (sf::Keyboard::isKeyPressed(strelice[i]) || sf::Keyboard::isKeyPressed(hjkl[i]))
 		{
 			if (kretanje == suprotno[i] && !guranje)
 			{
@@ -142,7 +148,26 @@ void igra::igrac_update()
 
 void igra::crtaj()
 {
-	g.crtaj_mapu(kretanje, mapa, igrac_vektor, kutija_gurana, guranje);
+	if (kretanje == GORE || kretanje == DOLE)
+		for (int i = 0; i < MAPA_X; i++)
+			for (int j = 0; j < MAPA_Y; j++)
+			{
+				g.crtaj(sf::Vector2f((float)i, (float)j), mapa[j][i]);
+				if (guranje && fabsf(kutija_gurana.x - i) < 1.0f && fabsf(kutija_gurana.y - j) < 1.0f)
+					g.crtaj(kutija_gurana, KUTIJA);
+				if (fabsf(igrac_vektor.x - i) < 1.0f && fabsf(igrac_vektor.y - j) < 1.0f)
+					g.crtaj(igrac_vektor, IGRAC);
+			}
+	else
+		for (int j = 0; j < MAPA_Y; j++)
+			for (int i = 0; i < MAPA_X; i++)
+			{
+				g.crtaj(sf::Vector2f((float)i, (float)j), mapa[j][i]);
+				if (guranje && fabsf(kutija_gurana.x - i) < 1.0f && fabsf(kutija_gurana.y - j) < 1.0f)
+					g.crtaj(kutija_gurana, KUTIJA);
+				if (fabsf(igrac_vektor.x - i) < 1.0f && fabsf(igrac_vektor.y - j) < 1.0f)
+					g.crtaj(igrac_vektor, IGRAC);
+			}
 }
 
 bool igra::reseno()
