@@ -24,7 +24,7 @@ int main()
 		}
 		prozor.clear(sf::Color::White);
 		sokoban.igrac_update();
-		sokoban.crtaj_mapu();
+		sokoban.crtaj();
 		if (sokoban.reseno())
 			sokoban.ucitaj_nivo(++nivo);
 		prozor.display();
