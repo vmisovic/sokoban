@@ -15,7 +15,8 @@ enum polje {
 	NA_MESTU
 };
 
-enum kretanje {
+#define KORAK 0.07f
+enum Kretanje {
 	LEVO,
 	GORE,
 	DESNO,

@@ -59,7 +59,6 @@ bool igra::ucitaj_nivo(int br)
 
 void igra::igrac_update()
 {
-	float korak = 0.07;
 	sf::Keyboard::Key strelice[4] = {
 		sf::Keyboard::Left,
 		sf::Keyboard::Up,
@@ -77,7 +76,7 @@ void igra::igrac_update()
 	int suprotno[4] = {DESNO, DOLE, LEVO, GORE};
 
 	int *ispred, *ispred2;
-	for (int i = 0; i < 4; i++)
+	for (Kretanje i : {LEVO, GORE, DESNO, DOLE})
 		if (sf::Keyboard::isKeyPressed(strelice[i]) || sf::Keyboard::isKeyPressed(hjkl[i]))
 		{
 			if (kretanje == suprotno[i] && !guranje)
@@ -115,9 +114,9 @@ void igra::igrac_update()
 		}
 	if (kretanje != STOJI)
 	{
-		igrac_vektor += korak * sf::Vector2f(dx[kretanje], dy[kretanje]);
+		igrac_vektor += KORAK * sf::Vector2f(dx[kretanje], dy[kretanje]);
 		if (guranje)
-			kutija_gurana += korak * sf::Vector2f(dx[kretanje], dy[kretanje]);
+			kutija_gurana += KORAK * sf::Vector2f(dx[kretanje], dy[kretanje]);
 	}
 
 	if (fabsf(igrac_vektor.x - (float)igrac.x) >= 1.0f || fabsf(igrac_vektor.y - (float)igrac.y) >= 1.0f)

@@ -28,7 +28,7 @@ class igra
 	sf::Vector2f kutija_gurana;
 
 public:
-	igra(sf::RenderWindow* prozor1);
+	igra(sf::RenderWindow* prozor);
 	bool ucitaj_nivo(int br);
 	void igrac_update();
 	void crtaj();

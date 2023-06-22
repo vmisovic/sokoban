@@ -22,6 +22,10 @@ int main()
 					prozor.close();
 				if (event.key.code == sf::Keyboard::R)
 					sokoban.ucitaj_nivo(nivo);
+				if (event.key.code == sf::Keyboard::B && nivo > 1)
+					sokoban.ucitaj_nivo(--nivo);
+				if (event.key.code == sf::Keyboard::N && nivo < BR_NIVOA)
+					sokoban.ucitaj_nivo(++nivo);
 			}
 		}
 		prozor.clear(sf::Color::White);
