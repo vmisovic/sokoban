@@ -2,13 +2,9 @@
 #define IGRA_H
 
 #include <SFML/Graphics.hpp>
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <fstream>
-#include <cmath>
 #include "konstante.h"
 #include "grafika.h"
+#include "lpoteza.h"
 
 class igra
 {
@@ -25,13 +21,17 @@ class igra
 	int kretanje;
 	float pomeraj;
 	bool guranje;
+	bool vracanje;
 	sf::Vector2f kutija_gurana;
+
+	lpoteza lp;
 
 public:
 	igra(sf::RenderWindow* prozor);
 	bool ucitaj_nivo(int br);
 	void igrac_update();
-	void crtaj();
+	void undo();
+	void crtaj_mapu();
 	bool reseno();
 };
 

@@ -8,7 +8,7 @@ CXXFLAGS=-std=c++14 -O2 -Wall
 LDFLAGS=-lsfml-graphics -lsfml-window -lsfml-system
 
 BUILD_DIR=build
-OBJECTS=source.o igra.o grafika.o
+OBJECTS=source.o igra.o grafika.o lpoteza.o
 OBJECT_FILES=$(patsubst %,$(BUILD_DIR)/%,$(OBJECTS))
 
 BINARY=sokoban.out

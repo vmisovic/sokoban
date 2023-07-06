@@ -1,4 +1,8 @@
 #include "igra.h"
+#include <iostream>
+#include <sstream>
+#include <fstream>
+#include <cmath>
 
 igra::igra(sf::RenderWindow* prozor)
 {
@@ -9,6 +13,7 @@ igra::igra(sf::RenderWindow* prozor)
 
 	kretanje = STOJI;
 	guranje = false;
+	vracanje = false;
 	br_poteza = 0;
 	br_guranja = 0;
 }
@@ -26,11 +31,13 @@ bool igra::ucitaj_nivo(int br)
 
 	kretanje = STOJI;
 	guranje = false;
+	vracanje = false;
 	br_poteza = 0;
 	br_guranja = 0;
 
 	br_kutija = 0;
 	br_na_mestu = 0;
+	lp.reset();
 	for (int j = 0; j < MAPA_Y; j++)
 	{
 		for (int i = 0; i < MAPA_X; i++)
@@ -84,6 +91,7 @@ void igra::igrac_update()
 				igrac.x += dx[kretanje];
 				igrac.y += dy[kretanje];
 				kretanje = i;
+				vracanje = true;
 				continue;
 			}
 			if (kretanje == STOJI)
@@ -121,31 +129,83 @@ void igra::igrac_update()
 
 	if (fabsf(igrac_vektor.x - (float)igrac.x) >= 1.0f || fabsf(igrac_vektor.y - (float)igrac.y) >= 1.0f)
 	{
-		br_poteza++;
 		igrac.x += dx[kretanje];
 		igrac.y += dy[kretanje];
 		igrac_vektor = sf::Vector2f((float)igrac.x, (float)igrac.y);
-		if (guranje)
+		if (!vracanje)
 		{
-			br_guranja++;
-			ispred = &mapa[igrac.y + dy[kretanje]][igrac.x + dx[kretanje]];
-			switch (*ispred)
+			br_poteza++;
+			if (guranje)
 			{
-				case PRAZNO:
-					*ispred = KUTIJA;
-					break;
-				case KRAJ:
-					*ispred = NA_MESTU;
-					br_na_mestu++;
-					break;
+				br_guranja++;
+				ispred = &mapa[igrac.y + dy[kretanje]][igrac.x + dx[kretanje]];
+				switch (*ispred)
+				{
+					case PRAZNO:
+						*ispred = KUTIJA;
+						break;
+					case KRAJ:
+						*ispred = NA_MESTU;
+						br_na_mestu++;
+						break;
+				}
 			}
+			lp.dodaj(kretanje, guranje);
 		}
 		kretanje = STOJI;
 		guranje = false;
+		vracanje = false;
 	}
 }
 
-void igra::crtaj()
+void igra::undo()
+{
+	if (kretanje != STOJI)
+		return;
+
+	int pk = lp.poslKretanje();
+	if (pk != STOJI)
+	{
+		int dx[4] = {-1, 0, +1, 0};
+		int dy[4] = {0, -1, 0, +1};
+
+		if (lp.jelGurano() == true)
+		{
+			int *kut = &mapa[igrac.y + dy[pk]][igrac.x + dx[pk]];
+			int *trn = &mapa[igrac.y][igrac.x];
+			switch (*trn)
+			{
+				case PRAZNO:
+					*trn = KUTIJA;
+					break;
+				case KRAJ:
+					*trn = NA_MESTU;
+					br_na_mestu++;
+					break;
+			}
+			switch (*kut)
+			{
+				case KUTIJA:
+					*kut = PRAZNO;
+					break;
+				case NA_MESTU:
+					*kut = KRAJ;
+					br_na_mestu--;
+					break;
+			}
+			br_guranja--;
+		}
+
+		igrac.x -= dx[pk];
+		igrac.y -= dy[pk];
+		igrac_vektor = sf::Vector2f((float)igrac.x, (float)igrac.y);
+		br_poteza--;
+
+		lp.vrati();
+	}
+}
+
+void igra::crtaj_mapu()
 {
 	if (kretanje == GORE || kretanje == DOLE)
 		for (int i = 0; i < MAPA_X; i++)

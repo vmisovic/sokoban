@@ -2,7 +2,7 @@
 
 grafika::grafika()
 {
-	prozor = NULL;
+	prozor = nullptr;
 
 	if (!tZid.loadFromFile(ZID_TEX))
 		exit(1);

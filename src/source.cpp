@@ -20,6 +20,8 @@ int main()
 			{
 				if (event.key.code == sf::Keyboard::Q || event.key.code == sf::Keyboard::Escape)
 					prozor.close();
+				if (event.key.code == sf::Keyboard::U)
+					sokoban.undo();
 				if (event.key.code == sf::Keyboard::R)
 					sokoban.ucitaj_nivo(nivo);
 				if (event.key.code == sf::Keyboard::B && nivo > 1)
@@ -30,7 +32,7 @@ int main()
 		}
 		prozor.clear(sf::Color::White);
 		sokoban.igrac_update();
-		sokoban.crtaj();
+		sokoban.crtaj_mapu();
 		if (sokoban.reseno())
 			sokoban.ucitaj_nivo(++nivo);
 		prozor.display();

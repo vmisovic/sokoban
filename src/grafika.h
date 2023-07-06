@@ -2,11 +2,6 @@
 #define GRAFIKA_H
 
 #include <SFML/Graphics.hpp>
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <fstream>
-#include <cmath>
 #include "konstante.h"
 
 class grafika
