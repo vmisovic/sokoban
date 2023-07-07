@@ -10,6 +10,7 @@ class igra
 {
 	grafika g;
 
+	int nivo;
 	int mapa[MAPA_Y][MAPA_X];
 	int br_kutija;
 	int br_na_mestu;

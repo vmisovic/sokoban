@@ -17,7 +17,7 @@ grafika::grafika()
 		exit(4);
 	if (!tNaMestu.loadFromFile(tex_path + NA_MESTU_TEX))
 		exit(5);
-	pocetak = sf::Vector2f(V_NA_EKRANU, 0.f);
+	pocetak = sf::Vector2f(V_NA_EKRANU, V_NA_EKRANU);
 
 	sZid.setTexture(tZid);
 	sKutija.setTexture(tKutija);
@@ -31,6 +31,13 @@ grafika::grafika()
 	sKraj.setScale(skal);
 	sIgrac.setScale(skal);
 	sNaMestu.setScale(skal);
+
+	if (!font.loadFromFile(FONT_PATH))
+	    exit(5);
+	tekst.setFont(font);
+	tekst.setCharacterSize((int)V_NA_EKRANU - 10);
+	tekst.setFillColor(sf::Color::Black);
+	tekst.setPosition(V_NA_EKRANU, 2);
 }
 
 void grafika::setRenderWindow(sf::RenderWindow *prozor)
@@ -63,4 +70,10 @@ void grafika::crtaj(sf::Vector2f v, int o)
 		sIgrac.setPosition(poz);
 		prozor->draw(sIgrac);
 	}
+}
+
+void grafika::crtajTekst(const sf::String &string)
+{
+	tekst.setString(string);
+	prozor->draw(tekst);
 }

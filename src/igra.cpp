@@ -1,4 +1,5 @@
 #include "igra.h"
+#include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -22,6 +23,7 @@ bool igra::ucitaj_nivo(int br)
 {
 	if (br < 1 || br > BR_NIVOA)
 		return false;
+	nivo = br;
 	std::stringstream naziv;
 	naziv << NIVOI_PATH << "/nivo";
 	if (br < 10) naziv << "0";
@@ -227,6 +229,13 @@ void igra::crtaj_mapu()
 				if (fabsf(igrac_vektor.x - i) < 1.0f && fabsf(igrac_vektor.y - j) < 1.0f)
 					g.crtaj(igrac_vektor, IGRAC);
 			}
+
+	std::stringstream s;
+	s << "Nivo: " << nivo << "\t";
+	s << "Potezi: " << std::setw(3) << std::setfill('0') << br_poteza << "\t";
+	s << "Guranja: " << std::setw(3) << std::setfill('0') << br_guranja << "\t";
+	s << "Na mestu: " << br_na_mestu << "/" << br_kutija;
+	g.crtajTekst(s.str());
 }
 
 bool igra::reseno()

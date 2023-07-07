@@ -13,10 +13,14 @@ class grafika
 	sf::Texture tZid, tKutija, tKraj, tIgrac, tNaMestu;
 	sf::Sprite sZid, sKutija, sKraj, sIgrac, sNaMestu;
 
+	sf::Font font;
+	sf::Text tekst;
+
 public:
 	grafika();
 	void setRenderWindow(sf::RenderWindow* prozor);
 	void crtaj(sf::Vector2f v, int o);
+	void crtajTekst(const sf::String &string);
 };
 
 #endif

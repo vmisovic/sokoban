@@ -38,4 +38,6 @@ enum Kretanje {
 #define IGRAC_TEX "igrac.png"
 #define NA_MESTU_TEX "na_mestu.png"
 
+#define FONT_PATH "resources/fonts/Pixeboy-z8XGD.ttf"
+
 #endif
