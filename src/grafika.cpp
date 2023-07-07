@@ -1,18 +1,21 @@
 #include "grafika.h"
+#include <string>
 
 grafika::grafika()
 {
 	prozor = nullptr;
+	std::string tex_path = TEX_PATH;
+	tex_path += "/";
 
-	if (!tZid.loadFromFile(ZID_TEX))
+	if (!tZid.loadFromFile(tex_path + ZID_TEX))
 		exit(1);
-	if (!tKutija.loadFromFile(KUTIJA_TEX))
+	if (!tKutija.loadFromFile(tex_path + KUTIJA_TEX))
 		exit(2);
-	if (!tKraj.loadFromFile(KRAJ_TEX))
+	if (!tKraj.loadFromFile(tex_path + KRAJ_TEX))
 		exit(3);
-	if (!tIgrac.loadFromFile(IGRAC_TEX))
+	if (!tIgrac.loadFromFile(tex_path + IGRAC_TEX))
 		exit(4);
-	if (!tNaMestu.loadFromFile(NA_MESTU_TEX))
+	if (!tNaMestu.loadFromFile(tex_path + NA_MESTU_TEX))
 		exit(5);
 	pocetak = sf::Vector2f(V_NA_EKRANU, 0.f);
 

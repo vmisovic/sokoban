@@ -2,7 +2,7 @@
 #define KONSTANTE_H
 
 #define BR_NIVOA 50
-#define NIVOI_PATH "nivoi"
+#define NIVOI_PATH "resources/nivoi"
 #define MAPA_X 19
 #define MAPA_Y 16
 
@@ -30,10 +30,12 @@ enum Kretanje {
 #define V_SLIKE 256
 #define SKALIRANJE 0.25f
 #define V_NA_EKRANU 50.0f
-#define ZID_TEX "teksture/kocka.png"
-#define KUTIJA_TEX "teksture/kutija.png"
-#define KRAJ_TEX "teksture/kraj-t256.png"
-#define IGRAC_TEX "teksture/igrac.png"
-#define NA_MESTU_TEX "teksture/na_mestu.png"
+
+#define TEX_PATH "resources/teksture"
+#define ZID_TEX "kocka.png"
+#define KUTIJA_TEX "kutija.png"
+#define KRAJ_TEX "kraj-t256.png"
+#define IGRAC_TEX "igrac.png"
+#define NA_MESTU_TEX "na_mestu.png"
 
 #endif
