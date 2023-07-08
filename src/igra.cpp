@@ -231,9 +231,9 @@ void igra::crtaj_mapu()
 			}
 
 	std::stringstream s;
-	s << "Nivo: " << nivo << "\t";
-	s << "Potezi: " << std::setw(3) << std::setfill('0') << br_poteza << "\t";
-	s << "Guranja: " << std::setw(3) << std::setfill('0') << br_guranja << "\t";
+	s << "Nivo: " << std::setw(2) << std::setfill('0') << nivo << "\t";
+	s << "Potezi: " << std::setw(4) << br_poteza << "\t";
+	s << "Guranja: " << std::setw(4) << br_guranja << "\t";
 	s << "Na mestu: " << br_na_mestu << "/" << br_kutija;
 	g.crtajTekst(s.str());
 }

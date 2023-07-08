@@ -17,7 +17,7 @@ grafika::grafika()
 		exit(4);
 	if (!tNaMestu.loadFromFile(tex_path + NA_MESTU_TEX))
 		exit(5);
-	pocetak = sf::Vector2f(V_NA_EKRANU, V_NA_EKRANU);
+	pocetak = V_NA_EKRANU * sf::Vector2f(0.5f, 1.0f);
 
 	sZid.setTexture(tZid);
 	sKutija.setTexture(tKutija);
@@ -37,7 +37,7 @@ grafika::grafika()
 	tekst.setFont(font);
 	tekst.setCharacterSize((int)V_NA_EKRANU - 10);
 	tekst.setFillColor(sf::Color::Black);
-	tekst.setPosition(V_NA_EKRANU, 2);
+	tekst.setPosition(V_NA_EKRANU * 1.5f, 0.0f);
 }
 
 void grafika::setRenderWindow(sf::RenderWindow *prozor)

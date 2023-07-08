@@ -24,8 +24,8 @@ enum Kretanje {
 	STOJI = -1
 };
 
-#define V_EKR_X0 1400
-#define V_EKR_Y0 800
+#define V_EKR_X0 1000
+#define V_EKR_Y0 880
 
 #define V_SLIKE 256
 #define SKALIRANJE 0.25f
