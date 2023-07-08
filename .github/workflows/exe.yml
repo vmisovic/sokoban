@@ -23,28 +23,25 @@ jobs:
 
       - name: DownloadSFML
         run: |
-          wget https://www.sfml-dev.org/files/SFML-2.5.1-windows-gcc-7.3.0-mingw-64-bit.zip
-          unzip SFML-2.5.1-windows-gcc-7.3.0-mingw-64-bit.zip
-          mv SFML-2.5.1 sfml
+          wget https://www.sfml-dev.org/files/SFML-2.6.0-windows-gcc-13.1.0-mingw-64-bit.zip
+          unzip SFML* -d sfml
 
       - name: Compile
         run: |
-          x86_64-w64-mingw32-g++ -DSFML_STATIC -std=c++14 -O2 -o bilijar.exe src/*.cpp -I sfml/include -L sfml/lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lwinmm -lgdi32 -static-libstdc++ -static-libgcc
+          x86_64-w64-mingw32-g++ -DSFML_STATIC -std=c++14 -O2 -o sokoban.exe src/*.cpp -I sfml/include -L sfml/lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lwinmm -lgdi32 -static-libstdc++ -static-libgcc
 
       - name: Archive
         run: |
-          mv bilijar.exe src
-          cd src
-          tar -czf bilijar-wind0ws-x86_64.tar.gz bilijar.exe resources
-          zip -r bilijar-wind0ws-x86_64.zip bilijar.exe resources
+          tar -czf sokoban-wind0ws-x86_64.tar.gz sokoban.exe resources
+          zip -r sokoban-wind0ws-x86_64.zip sokoban.exe resources
 
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            src/bilijar-wind0ws-x86_64.tar.gz
-            src/bilijar-wind0ws-x86_64.zip
+            sokoban-wind0ws-x86_64.tar.gz
+            sokoban-wind0ws-x86_64.zip
         
   buildlinux:
     name: BuildLinux
@@ -63,19 +60,17 @@ jobs:
 
       - name: Compile
         run: |
-          cd src
           make
 
       - name: Archive
         run: |
-          cd src
-          tar -czf bilijar-linux-x86_64.tar.gz bilijar.out resources
-          zip -r bilijar-linux-x86_64.zip bilijar.out resources
+          tar -czf sokoban-linux-x86_64.tar.gz sokoban.out resources
+          zip -r sokoban-linux-x86_64.zip sokoban.out resources
 
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            src/bilijar-linux-x86_64.tar.gz
-            src/bilijar-linux-x86_64.zip
+            sokoban-linux-x86_64.tar.gz
+            sokoban-linux-x86_64.zip
