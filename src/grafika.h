@@ -6,7 +6,7 @@
 
 class grafika
 {
-	sf::RenderWindow *prozor;
+	sf::RenderWindow &prozor;
 
 	sf::Vector2f pocetak;
 	int sizeX, sizeY;
@@ -17,8 +17,7 @@ class grafika
 	sf::Text tekst;
 
 public:
-	grafika();
-	void setRenderWindow(sf::RenderWindow* prozor);
+	grafika(sf::RenderWindow &prozor);
 	void crtaj(sf::Vector2f v, int o);
 	void crtajTekst(const sf::String &string);
 };

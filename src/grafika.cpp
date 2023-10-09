@@ -1,9 +1,9 @@
 #include "grafika.h"
 #include <string>
 
-grafika::grafika()
+grafika::grafika(sf::RenderWindow &prozor)
+	: prozor(prozor)
 {
-	prozor = nullptr;
 	std::string tex_path = TEX_PATH;
 	tex_path += "/";
 
@@ -40,11 +40,6 @@ grafika::grafika()
 	tekst.setPosition(V_NA_EKRANU * 1.5f, 0.0f);
 }
 
-void grafika::setRenderWindow(sf::RenderWindow *prozor)
-{
-	this->prozor = prozor;
-}
-
 void grafika::crtaj(sf::Vector2f v, int o)
 {
 	sf::Vector2f poz = pocetak + V_NA_EKRANU * v;
@@ -52,28 +47,28 @@ void grafika::crtaj(sf::Vector2f v, int o)
 	{
 	case ZID:
 		sZid.setPosition(poz);
-		prozor->draw(sZid);
+		prozor.draw(sZid);
 		break;
 	case KRAJ:
 		sKraj.setPosition(poz);
-		prozor->draw(sKraj);
+		prozor.draw(sKraj);
 		break;
 	case KUTIJA:
 		sKutija.setPosition(poz);
-		prozor->draw(sKutija);
+		prozor.draw(sKutija);
 		break;
 	case NA_MESTU:
 		sNaMestu.setPosition(poz);
-		prozor->draw(sNaMestu);
+		prozor.draw(sNaMestu);
 		break;
 	case IGRAC:
 		sIgrac.setPosition(poz);
-		prozor->draw(sIgrac);
+		prozor.draw(sIgrac);
 	}
 }
 
 void grafika::crtajTekst(const sf::String &string)
 {
 	tekst.setString(string);
-	prozor->draw(tekst);
+	prozor.draw(tekst);
 }

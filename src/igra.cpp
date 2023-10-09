@@ -5,10 +5,9 @@
 #include <fstream>
 #include <cmath>
 
-igra::igra(sf::RenderWindow* prozor)
+igra::igra(sf::RenderWindow &prozor)
+	: g(prozor)
 {
-	g.setRenderWindow(prozor);
-
 	br_kutija = 0;
 	br_na_mestu = 0;
 

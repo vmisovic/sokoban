@@ -28,7 +28,7 @@ class igra
 	lpoteza lp;
 
 public:
-	igra(sf::RenderWindow* prozor);
+	igra(sf::RenderWindow &prozor);
 	bool ucitaj_nivo(int br);
 	void igrac_update();
 	void undo();
